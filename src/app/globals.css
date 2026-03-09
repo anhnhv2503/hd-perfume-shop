@@ -20,6 +20,59 @@
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
+  font-family: "Newsreader", serif;
+  background-color: #0a0a0a;
+  color: #ffffff;
+}
+
+.gold-accent {
+  color: #eebd2b;
+}
+
+.gold-border {
+  border-color: #eebd2b;
+}
+
+.gold-bg {
+  background-color: #eebd2b;
+}
+
+.hero-gradient {
+  background: linear-gradient(rgba(10, 10, 10, 0.4), rgba(10, 10, 10, 0.9));
+}
+
+.fade-in {
+  animation: fadeIn 1.5s ease-in-out;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.hover-lift {
+  transition: transform 0.3s ease;
+}
+
+.hover-lift:hover {
+  transform: translateY(-5px);
+}
+
+.bg-brand-gold {
+  background-color: #eebd2b;
+}
+
+.bg-brand-dark {
+  background-color: #0a0a0a;
+}
+
+.bg-brand-card {
+  background-color: #141414;
 }

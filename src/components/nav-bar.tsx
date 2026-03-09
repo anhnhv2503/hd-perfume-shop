@@ -1,3 +1,7 @@
+import Image from "next/image";
+import logo from "@/assets/logo.png";
+import Link from "next/link";
+
 const NavBar = () => {
   const rightOptions = [
     {
@@ -26,33 +30,32 @@ const NavBar = () => {
       className="fixed w-full z-50 bg-brand-dark/80 backdrop-blur-md border-b border-white/10 bg-zinc-900"
       data-purpose="main-navigation"
     >
-      <div className="max-row mx-auto px-6 lg:px-12 py-5 flex justify-between items-center">
+      <div className="max-row mx-auto px-6 lg:px-12 py-1 flex justify-between items-center">
         <div className="flex gap-8 items-center">
-          {rightOptions.map((option) => (
-            <a
-              className="text-xs uppercase tracking-widest hover:text-brand-gold transition-colors"
+          {rightOptions.map((option, index) => (
+            <Link
+              key={index}
               href={option.href}
+              className="text-xs uppercase tracking-widest hover:text-brand-gold transition-colors"
             >
               {option.label}
-            </a>
+            </Link>
           ))}
         </div>
-        <div className="text-2xl font-light tracking-[0.3em] uppercase">
-          <a className="flex flex-col items-center" href="/">
-            <span>HD</span>
-            <span className="text-[10px] tracking-[0.5em] -mt-1 font-normal opacity-70">
-              Perfume
-            </span>
-          </a>
+        <div className="text-2xl font-light tracking-[0.3em]">
+          <Link href={"/"}>
+            <Image src={logo} alt="Logo" width={100} height={100} />
+          </Link>
         </div>
         <div className="flex gap-8 items-center">
-          {leftOptions.map((option) => (
-            <a
-              className="text-xs uppercase tracking-widest hover:text-brand-gold transition-colors"
+          {leftOptions.map((option, index) => (
+            <Link
+              key={index}
               href={option.href}
+              className="text-xs uppercase tracking-widest hover:text-brand-gold transition-colors"
             >
               {option.label}
-            </a>
+            </Link>
           ))}
           <div className="flex gap-4 ml-4">
             <button className="hover:text-brand-gold transition-colors">

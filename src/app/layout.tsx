@@ -1,8 +1,8 @@
+import Footer from "@/components/footer";
+import NavBar from "@/components/nav-bar";
 import type { Metadata } from "next";
 import { Newsreader } from "next/font/google";
 import "./globals.css";
-import NavBar from "@/components/nav-bar";
-import Footer from "@/components/footer";
 
 const newsreader = Newsreader({
   variable: "--font-newsreader",
@@ -21,7 +21,9 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={`${newsreader.variable} font-mono`}>
+      <body
+        className={`${newsreader.variable} font-mono bg-brand-dark text-white selection:bg-brand-gold selection:text-black`}
+      >
         <NavBar />
         {children}
         <Footer />
