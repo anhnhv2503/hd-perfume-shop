@@ -1,5 +1,5 @@
 import Image from "next/image";
-import hero from "@/assets/hero.png";
+import hero from "@/assets/hero1.jpg";
 
 export default function HeroSection() {
   return (

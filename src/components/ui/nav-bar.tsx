@@ -27,7 +27,7 @@ const NavBar = () => {
 
   return (
     <nav
-      className="fixed w-full z-50 bg-brand-dark/80 backdrop-blur-md border-b border-white/10 bg-zinc-900"
+      className="fixed w-full z-50 bg-brand-dark/80 backdrop-blur-md border-b border-white/10 bg-zinc-900 opacity-80"
       data-purpose="main-navigation"
     >
       <div className="max-row mx-auto px-6 lg:px-12 py-1 flex justify-between items-center">
