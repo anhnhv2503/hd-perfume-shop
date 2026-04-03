@@ -20,7 +20,7 @@
 }
 
 body {
-  font-family: "Newsreader", serif;
+  font-family: var(--font-newsreader);
   background-color: #0a0a0a;
   color: #ffffff;
 }

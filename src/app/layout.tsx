@@ -1,13 +1,9 @@
 import type { Metadata } from "next";
-import { Newsreader } from "next/font/google";
-import "./globals.css";
-import NavBar from "@/components/ui/nav-bar";
-import Footer from "@/components/ui/footer";
 
-const newsreader = Newsreader({
-  variable: "--font-newsreader",
-  subsets: ["latin"],
-});
+import { newsreader } from "@/app/ui/font";
+import Footer from "@/components/ui/footer";
+import NavBar from "@/components/ui/nav-bar";
+import "./globals.css";
 
 export const metadata: Metadata = {
   title: "HD Perfume",
