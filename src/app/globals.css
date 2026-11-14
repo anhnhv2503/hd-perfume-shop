@@ -1,78 +1,320 @@
 @import "tailwindcss";
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --background: #0a0a0a;
+  --foreground: #ffffff;
+  --gold: #eebd2b;
+  --ease-lux: cubic-bezier(0.22, 1, 0.36, 1);
 }
 
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --font-sans: var(--font-newsreader);
-  --font-mono: var(--font-newsreader);
+  --color-brand-gold: #eebd2b;
+  --color-brand-dark: #0a0a0a;
+  --color-brand-card: #141414;
+  --font-sans: var(--font-body), ui-sans-serif, system-ui, sans-serif;
+  --font-serif: var(--font-newsreader), ui-serif, Georgia, serif;
+  --radius-custom: 2px;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+@layer base {
+  html {
+    scroll-behavior: smooth;
+    scrollbar-color: #3f3f46 #0a0a0a;
+  }
+
+  body {
+    background-color: var(--background);
+    color: var(--foreground);
+  }
+
+  /* Serif for headings (luxury), sans for body copy. */
+  h1,
+  h2,
+  h3,
+  h4 {
+    font-family: var(--font-serif);
+  }
+
+  :focus-visible {
+    outline: 1px solid var(--gold);
+    outline-offset: 3px;
+  }
+
+  button {
+    cursor: pointer;
   }
 }
 
-body {
-  font-family: var(--font-newsreader);
-  background-color: #0a0a0a;
-  color: #ffffff;
-}
-
 .gold-accent {
-  color: #eebd2b;
+  color: var(--gold);
 }
 
 .gold-border {
-  border-color: #eebd2b;
+  border-color: var(--gold);
 }
 
 .gold-bg {
-  background-color: #eebd2b;
+  background-color: var(--gold);
 }
 
 .hero-gradient {
   background: linear-gradient(rgba(10, 10, 10, 0.4), rgba(10, 10, 10, 0.9));
 }
 
-.fade-in {
-  animation: fadeIn 1.5s ease-in-out;
-}
+/* ── Entrance animations ─────────────────────────────── */
 
-@keyframes fadeIn {
+@keyframes fadeUp {
   from {
     opacity: 0;
-    transform: translateY(10px);
+    transform: translateY(24px);
   }
-
   to {
     opacity: 1;
     transform: translateY(0);
   }
 }
 
+.fade-in {
+  animation: fadeUp 1.2s var(--ease-lux) both;
+}
+
+/* Staggered hero copy: set --i on each child. */
+.hero-in {
+  animation: fadeUp 1.1s var(--ease-lux) both;
+  animation-delay: calc(var(--i, 0) * 160ms + 200ms);
+}
+
+@keyframes kenburns {
+  from {
+    transform: scale(1);
+  }
+  to {
+    transform: scale(1.12);
+  }
+}
+
+.kenburns {
+  animation: kenburns 18s ease-out both;
+}
+
+/* Route change fade */
+@keyframes pageEnter {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+.page-enter {
+  animation: pageEnter 0.5s ease-out;
+}
+
+/* Scroll reveal (toggled by <Reveal>) */
+.reveal {
+  opacity: 0;
+  transform: translateY(28px);
+  transition:
+    opacity 0.9s var(--ease-lux),
+    transform 0.9s var(--ease-lux);
+}
+
+.reveal.is-visible {
+  opacity: 1;
+  transform: none;
+}
+
+/* Gold divider that draws itself when revealed */
+.reveal .divider-draw {
+  transform: scaleX(0);
+  transition: transform 1s var(--ease-lux) 0.3s;
+}
+
+.reveal.is-visible .divider-draw {
+  transform: scaleX(1);
+}
+
+/* Performance meters fill when revealed */
+.reveal .meter-fill {
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 1.4s var(--ease-lux) 0.2s;
+}
+
+.reveal.is-visible .meter-fill {
+  transform: scaleX(1);
+}
+
+/* ── Micro-interactions ──────────────────────────────── */
+
 .hover-lift {
-  transition: transform 0.3s ease;
+  transition: transform 0.4s var(--ease-lux);
 }
 
 .hover-lift:hover {
-  transform: translateY(-5px);
+  transform: translateY(-6px);
 }
 
-.bg-brand-gold {
-  background-color: #eebd2b;
+/* Underline that grows from the left */
+.link-underline {
+  position: relative;
 }
 
-.bg-brand-dark {
-  background-color: #0a0a0a;
+.link-underline::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: -6px;
+  width: 100%;
+  height: 1px;
+  background: var(--gold);
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 0.4s var(--ease-lux);
 }
 
-.bg-brand-card {
-  background-color: #141414;
+.link-underline:hover::after,
+.link-underline[aria-current="page"]::after {
+  transform: scaleX(1);
+}
+
+/* Light sweep across primary buttons */
+.btn-shine {
+  position: relative;
+  overflow: hidden;
+}
+
+.btn-shine::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    110deg,
+    transparent 35%,
+    rgba(255, 255, 255, 0.55) 50%,
+    transparent 65%
+  );
+  transform: translateX(-120%);
+  pointer-events: none;
+}
+
+.btn-shine:hover::after {
+  transform: translateX(120%);
+  transition: transform 0.9s var(--ease-lux);
+}
+
+.btn-shine:active {
+  transform: scale(0.98);
+}
+
+/* Quick-add on product cards: always visible on touch, revealed on hover otherwise */
+.quick-add {
+  transition:
+    opacity 0.3s ease,
+    transform 0.4s var(--ease-lux),
+    background-color 0.2s ease;
+}
+
+@media (hover: hover) {
+  .quick-add {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+
+  .group:hover .quick-add,
+  .quick-add:focus-visible {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@keyframes badgeBump {
+  0% {
+    transform: scale(1);
+  }
+  40% {
+    transform: scale(1.6);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+.badge-bump {
+  animation: badgeBump 0.45s var(--ease-lux);
+}
+
+@keyframes toastIn {
+  from {
+    opacity: 0;
+    transform: translateY(16px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.toast-in {
+  animation: toastIn 0.45s var(--ease-lux) both;
+}
+
+@keyframes toastTimer {
+  from {
+    transform: scaleX(1);
+  }
+  to {
+    transform: scaleX(0);
+  }
+}
+
+.toast-timer {
+  transform-origin: left;
+  animation: toastTimer 3.5s linear both;
+}
+
+/* Notes marquee */
+@keyframes marquee {
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+.marquee-track {
+  display: flex;
+  width: max-content;
+  animation: marquee 40s linear infinite;
+}
+
+.marquee:hover .marquee-track {
+  animation-play-state: paused;
+}
+
+/* ── Respect reduced motion ──────────────────────────── */
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-delay: 0ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    transition-delay: 0ms !important;
+  }
+
+  .reveal {
+    opacity: 1;
+    transform: none;
+  }
+
+  .marquee-track {
+    animation: none;
+  }
 }
