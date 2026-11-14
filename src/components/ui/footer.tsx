@@ -1,3 +1,5 @@
+import Link from "next/link";
+
 const Footer = () => {
   return (
     <footer
@@ -26,24 +28,24 @@ const Footer = () => {
           </h5>
           <ul className="space-y-4 text-sm opacity-60 font-light">
             <li>
-              <a className="hover:text-brand-gold transition-colors" href="#">
+              <Link className="hover:text-brand-gold transition-colors" href="/contact">
                 Tư vấn cá nhân
-              </a>
+              </Link>
             </li>
             <li>
-              <a className="hover:text-brand-gold transition-colors" href="#">
+              <Link className="hover:text-brand-gold transition-colors" href="/contact">
                 Giao hàng & Đổi trả
-              </a>
+              </Link>
             </li>
             <li>
-              <a className="hover:text-brand-gold transition-colors" href="#">
+              <Link className="hover:text-brand-gold transition-colors" href="/about">
                 Phát triển bền vững
-              </a>
+              </Link>
             </li>
             <li>
-              <a className="hover:text-brand-gold transition-colors" href="#">
+              <Link className="hover:text-brand-gold transition-colors" href="/contact">
                 Tìm cửa hàng
-              </a>
+              </Link>
             </li>
           </ul>
         </div>
@@ -55,24 +57,24 @@ const Footer = () => {
           </h5>
           <ul className="space-y-4 text-sm opacity-60 font-light">
             <li>
-              <a className="hover:text-brand-gold transition-colors" href="#">
+              <Link className="hover:text-brand-gold transition-colors" href="/products?collection=Smoky%20Woods">
                 Dòng di sản
-              </a>
+              </Link>
             </li>
             <li>
-              <a className="hover:text-brand-gold transition-colors" href="#">
+              <Link className="hover:text-brand-gold transition-colors" href="/products?category=New%20Arrival">
                 Phiên bản giới hạn
-              </a>
+              </Link>
             </li>
             <li>
-              <a className="hover:text-brand-gold transition-colors" href="#">
+              <Link className="hover:text-brand-gold transition-colors" href="/products?collection=Solar%20Florals">
                 Hương thơm nội thất
-              </a>
+              </Link>
             </li>
             <li>
-              <a className="hover:text-brand-gold transition-colors" href="#">
+              <Link className="hover:text-brand-gold transition-colors" href="/products?collection=Velvet%20Orientals">
                 Quà tặng & Bộ sản phẩm
-              </a>
+              </Link>
             </li>
           </ul>
         </div>

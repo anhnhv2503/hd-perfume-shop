@@ -3,26 +3,78 @@
 import Image from "next/image";
 import logo from "@/assets/logo.png";
 import Link from "next/link";
-import { useState } from "react";
+import { usePathname } from "next/navigation";
+import { useEffect, useState } from "react";
+import { useCart } from "@/context/cart-context";
+
+const CartLink = () => {
+  const { count } = useCart();
+  return (
+    <Link
+      href="/cart"
+      aria-label={`Giỏ hàng (${count} sản phẩm)`}
+      className="relative hover:text-brand-gold transition-colors"
+    >
+      <svg
+        fill="none"
+        height="20"
+        stroke="currentColor"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        strokeWidth="1.5"
+        viewBox="0 0 24 24"
+        width="20"
+        xmlns="http://www.w3.org/2000/svg"
+      >
+        <path d="M6 7h12l1 13H5L6 7z" />
+        <path d="M9 7a3 3 0 0 1 6 0" />
+      </svg>
+      {count > 0 && (
+        <span
+          key={count}
+          className="badge-bump absolute -top-2 -right-2 min-w-4 h-4 px-1 rounded-full bg-brand-gold text-black text-[10px] leading-4 text-center font-semibold"
+        >
+          {count}
+        </span>
+      )}
+    </Link>
+  );
+};
 
 const NavBar = () => {
   const [menuOpen, setMenuOpen] = useState(false);
+  const [scrolled, setScrolled] = useState(false);
+  const pathname = usePathname();
+
+  useEffect(() => {
+    const onScroll = () => setScrolled(window.scrollY > 40);
+    onScroll();
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onScroll);
+  }, []);
+
+  // Two links share /products, so only query-less links get an active state.
+  const isActive = (href: string) => !href.includes("?") && pathname === href;
 
   const rightOptions = [
-    { label: "Cửa Hàng", href: "#" },
-    { label: "Bộ Sưu Tập", href: "#" },
+    { label: "Cửa Hàng", href: "/products" },
+    { label: "Bộ Sưu Tập", href: "/products?category=Best%20Seller" },
   ];
 
   const leftOptions = [
-    { label: "Giới Thiệu", href: "#" },
-    { label: "Liên Hệ", href: "#" },
+    { label: "Giới Thiệu", href: "/about" },
+    { label: "Liên Hệ", href: "/contact" },
   ];
 
   const allOptions = [...rightOptions, ...leftOptions];
 
   return (
     <nav
-      className="fixed w-full z-50 bg-zinc-900/90 backdrop-blur-md border-b border-white/10"
+      className={`fixed w-full z-50 backdrop-blur-md border-b transition-all duration-500 ${
+        scrolled
+          ? "bg-black/90 border-white/10 shadow-lg shadow-black/40"
+          : "bg-zinc-900/70 border-transparent"
+      }`}
       data-purpose="main-navigation"
     >
       {/* ── Desktop layout ── */}
@@ -33,7 +85,10 @@ const NavBar = () => {
             <Link
               key={index}
               href={option.href}
-              className="text-xs uppercase tracking-widest hover:text-brand-gold transition-colors"
+              aria-current={isActive(option.href) ? "page" : undefined}
+              className={`link-underline text-xs uppercase tracking-widest hover:text-brand-gold transition-colors ${
+                isActive(option.href) ? "text-brand-gold" : ""
+              }`}
             >
               {option.label}
             </Link>
@@ -43,7 +98,16 @@ const NavBar = () => {
         {/* Logo – always visible */}
         <div className="text-2xl font-light tracking-[0.3em]">
           <Link href={"/"}>
-            <Image src={logo} alt="Logo" width={100} height={100} />
+            <Image
+              src={logo}
+              alt="HD Perfume"
+              width={100}
+              height={100}
+              priority
+              className={`h-auto transition-[width] duration-500 ${
+                scrolled ? "w-[68px]" : "w-[100px]"
+              }`}
+            />
           </Link>
         </div>
 
@@ -53,15 +117,19 @@ const NavBar = () => {
             <Link
               key={index}
               href={option.href}
-              className="text-xs uppercase tracking-widest hover:text-brand-gold transition-colors"
+              aria-current={isActive(option.href) ? "page" : undefined}
+              className={`link-underline text-xs uppercase tracking-widest hover:text-brand-gold transition-colors ${
+                isActive(option.href) ? "text-brand-gold" : ""
+              }`}
             >
               {option.label}
             </Link>
           ))}
           <div className="flex gap-4 ml-4">
-            <button
+            <Link
+              href="/products#search"
               className="hover:text-brand-gold transition-colors"
-              aria-label="Search"
+              aria-label="Tìm kiếm"
             >
               <svg
                 fill="none"
@@ -77,15 +145,18 @@ const NavBar = () => {
                 <circle cx="11" cy="11" r="8" />
                 <line x1="21" x2="16.65" y1="21" y2="16.65" />
               </svg>
-            </button>
+            </Link>
+            <CartLink />
           </div>
         </div>
 
         {/* Mobile – search + hamburger */}
         <div className="flex md:hidden items-center gap-4">
-          <button
+          <CartLink />
+          <Link
+            href="/products#search"
             className="hover:text-brand-gold transition-colors"
-            aria-label="Search"
+            aria-label="Tìm kiếm"
           >
             <svg
               fill="none"
@@ -101,11 +172,11 @@ const NavBar = () => {
               <circle cx="11" cy="11" r="8" />
               <line x1="21" x2="16.65" y1="21" y2="16.65" />
             </svg>
-          </button>
+          </Link>
 
           <button
             onClick={() => setMenuOpen((prev) => !prev)}
-            aria-label="Toggle menu"
+            aria-label="Mở hoặc đóng menu"
             aria-expanded={menuOpen}
             className="hover:text-brand-gold transition-colors focus:outline-none"
           >
